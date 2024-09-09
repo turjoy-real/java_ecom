@@ -68,6 +68,8 @@ public class FakeStoreProductService implements ProductService{
         return true;
     }
 
-
-
+    @Override
+    public ProductResponseDTO findProductByTitle(String title) {
+        return null;
+    }
 }

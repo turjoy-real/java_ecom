@@ -19,12 +19,9 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-//    @Autowired
-//    @Qualifier("FakeStoreProductService")
-//    private ProductService productService;
 
     @Autowired
-    public ProductController(@Qualifier("FakeStoreProductService") ProductService productService){
+    public ProductController(@Qualifier("ProductService") ProductService productService){
         this.productService = productService;
     }
 
@@ -32,25 +29,6 @@ public class ProductController {
     public ResponseEntity getAllProducts() {
         ProductListResponseDTO response = productService.getAllProducts();
         return  ResponseEntity.ok(response);
-//        ProductResponseDTO p1 = new ProductResponseDTO();
-//        p1.setId(1);
-//        p1.setTitle("iPhone 15");
-//        p1.setPrice(150000);
-//        p1.setImage("www.google.com/images/iphone");
-//        p1.setDescription(("Kafi Mehenga phone"));
-//        p1.setCategory("Electronics");
-//
-//        ProductResponseDTO p2 = new ProductResponseDTO();
-//        p2.setId(1);
-//        p2.setTitle("Macbook Pro");
-//        p2.setPrice(150000);
-//        p2.setImage("www.google.com/images/macbook");
-//        p2.setDescription(("Kafi Mehenga phone"));
-//        p2.setCategory("Electronics");
-//
-//        List<ProductResponseDTO> products = Arrays.asList(p1,p2);
-//        return ResponseEntity.ok(products);
-
     }
 
     @GetMapping("/products/{id}")
@@ -58,6 +36,13 @@ public class ProductController {
         ProductResponseDTO response = productService.getProductById(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/products/title/{title}")
+    public ResponseEntity getProductFromTitle(@PathVariable("title") String title) throws ProductNotFoundException {
+        ProductResponseDTO response = productService.findProductByTitle(title);
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/products")
     public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO){
